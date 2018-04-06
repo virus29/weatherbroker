@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="wildfly">
+    <output-path>$PROJECT_DIR$/out/artifacts/wildfly</output-path>
+    <root id="archive" name="wildfly.war" />
+  </artifact>
+</component>
