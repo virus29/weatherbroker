@@ -14,6 +14,10 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 
 @RestController
 @RequestMapping(value = "/api/organization")
@@ -41,7 +45,8 @@ public class OrganizationController {
      * @param id - Id организации
      * @return - Организация найденная по id
      */
-    @GetMapping(path = "/{id}")
+//    @GetMapping(path = "/{id}")
+    @RequestMapping(value = "/{id}", method = {GET})
     public ResponseEntity findOrganizationById(@PathVariable Long id) throws CustomOrganizationException {
         OrgViewResponse orgViewResponse = organizationServiceImpl.findById(id);
         DataView<OrgViewResponse> dataView = new DataView<>(orgViewResponse);

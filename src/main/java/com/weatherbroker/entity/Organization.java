@@ -11,6 +11,8 @@ public class Organization {
      */
     @Id
     @GeneratedValue
+//    @GeneratedValue(generator = "increment")
+//    @GenericGenerator(name= "increment", strategy= "increment")
     @Column(name = "Id")
     private Long id;
 
@@ -121,4 +123,6 @@ public class Organization {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+
 }
