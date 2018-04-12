@@ -6,8 +6,6 @@ import com.weatherbroker.exeption.CustomOrganizationException;
 import com.weatherbroker.repository.OrganizationRepository;
 import com.weatherbroker.service.OrganisationService;
 import com.weatherbroker.view.*;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,7 +17,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.xml.validation.SchemaFactory;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +67,6 @@ public class OrganizationServiceImpl implements OrganisationService {
 
     /**
      * Изменение(обновление) организации
-     *
      * @param orgViewRequest - объект содержащий параметры для обновления
      */
     @Transactional

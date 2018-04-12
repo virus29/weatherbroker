@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS Organization (
     id         INTEGER  PRIMARY KEY AUTO_INCREMENT,
     version    INTEGER,
     name    VARCHAR(255),
-    full_name    VARCHAR(255),
+    fullname    VARCHAR(255),
     inn    VARCHAR(255),
     kpp    VARCHAR(255),
     address    VARCHAR(255),

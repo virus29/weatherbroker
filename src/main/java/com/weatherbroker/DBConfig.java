@@ -17,6 +17,7 @@ import org.springframework.jndi.JndiTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
@@ -28,11 +29,12 @@ import java.util.Properties;
 @EnableJpaRepositories
 @PropertySource("classpath:app.properties")
 @ComponentScan({"com.weatherbroker"})
-//@EnableTransactionManagement
+@EnableTransactionManagement
 public class DBConfig {
 
     @Autowired
     private Environment env;
+
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory()
@@ -49,15 +51,21 @@ public class DBConfig {
     @Bean
     public DataSource dataSource() throws NamingException {
         return (DataSource) new JndiTemplate().lookup(env.getProperty("datasource.jndi-name"));
-
     }
-
     @Bean
-    JpaTransactionManager transactionManager() throws NamingException {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+    public PlatformTransactionManager transactionManager() throws NamingException {
+        JpaTransactionManager transactionManager
+                = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(
+                entityManagerFactory().getObject() );
         return transactionManager;
     }
+//    @Bean
+//    JpaTransactionManager transactionManager() throws NamingException {
+//        JpaTransactionManager transactionManager = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+//        return transactionManager;
+//    }
 
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
@@ -102,3 +110,24 @@ public class DBConfig {
         return new ModelMapper();
     }
 }
+
+
+//@Configuration
+//@EnableTransactionManagement
+//public class PersistenceJPAConfig{
+//
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean
+//    entityManagerFactoryBean(){
+//        //...
+//    }
+//
+//    @Bean
+//    public PlatformTransactionManager transactionManager(){
+//        JpaTransactionManager transactionManager
+//                = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(
+//                entityManagerFactoryBean().getObject() );
+//        return transactionManager;
+//    }
+//}

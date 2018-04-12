@@ -24,16 +24,17 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 //extends WebMvcConfigurerAdapter deprecated, because we use this implementation WebMvcConfigurer
 public class Config implements WebMvcConfigurer {
 
-//    @Bean
-//    public UrlBasedViewResolver setupViewResolver() {
-//        UrlBasedViewResolver resolver = new UrlBasedViewResolver();
-//        // указываем где будут лежать наши веб-страницы
-//        resolver.setPrefix("/WEB-INF/jsp/");
-//        // формат View который мы будем использовать
-//        resolver.setSuffix(".jsp");
-////        resolver.setViewClass(InternalResourceView.class,JstlView.class);
-//        return resolver;
-//    }
+    @Bean
+    public UrlBasedViewResolver setupViewResolver() {
+        UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+        // указываем где будут лежать наши веб-страницы
+        resolver.setPrefix("/WEB-INF/html/");
+        // формат View который мы будем использовать
+        resolver.setSuffix(".html");
+        resolver.setViewClass(JstlView.class);
+        resolver.setViewNames("index");
+        return resolver;
+    }
 
 //    @Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {

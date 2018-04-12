@@ -1,5 +1,7 @@
 package com.weatherbroker.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,8 +13,6 @@ public class Organization {
      */
     @Id
     @GeneratedValue
-//    @GeneratedValue(generator = "increment")
-//    @GenericGenerator(name= "increment", strategy= "increment")
     @Column(name = "Id")
     private Long id;
 
@@ -123,6 +123,4 @@ public class Organization {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-
 }

@@ -1,0 +1,72 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: IIakubov
+  Date: 06.04.2018
+  Time: 12:39
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>WeatherBroker</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/form.js"> </script>
+</head>
+
+<script type="text/javascript">
+
+
+    // $("button").click(function(){
+    //     $.get("cityname", function(data, status){
+    //         alert("Data: " + data + "\nStatus: " + status);
+    //     });
+    // });
+
+    $(document).ready(function() {
+
+        $("#cityNameSubmit").on("click", function(){
+            // Only change code below this line.
+
+            $.getJSON("/moskow", function(json) {
+                $(".message").html(JSON.stringify(json));
+            });
+
+            // Only change code above this line.
+        });
+
+    });
+    // var prefix = '/';
+    //
+    // var RestGet = function() {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url:  prefix + cityName,
+    //         dataType: 'json',
+    //         async: true,
+    //         success: function(result) {
+    //             alert(result.message)
+    //         },
+    //         error: function(jqXHR, textStatus, errorThrown) {
+    //             alert(jqXHR.status + ' ' + jqXHR.responseText);
+    //         }
+    //     });
+    // }
+</script>
+
+<body>
+
+<form>
+    <div class="form-group">
+        <label for="cityName">Название Города: </label>
+        <input type="text" class="form-control" id="cityName" placeholder="cityName">
+        <small id="cityNameHelp" class="form-text text-muted">Введите грод для получения погоды</small>
+    </div>
+    <button type="submit" class="btn btn-primary" id="cityNameSubmit">Получить прогноз погоды</button>
+</form>
+
+</body>
+</html>
