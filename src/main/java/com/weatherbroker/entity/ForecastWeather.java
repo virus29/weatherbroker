@@ -1,17 +1,30 @@
 package com.weatherbroker.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "forecast_weather")
 public class ForecastWeather {
+
+    /**
+     * Id forecast_weather
+     */
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    /**
+     * Служебное поле hibernate
+     */
+    @Version
+    private Integer version=1;
+
     /**
      * Дата прогноза погоды
      */
     @Column(name = "date")
-    private String date;
+    private Date date;
 
     /**
      * день недели
@@ -37,11 +50,15 @@ public class ForecastWeather {
     @Column(name = "text")
     private String text;
 
-    public String getDate() {
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "weatherBroker_id")
+    private WeatherBroker weatherBroker;
+
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -75,5 +92,13 @@ public class ForecastWeather {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public WeatherBroker getWeatherBroker() {
+        return weatherBroker;
+    }
+
+    public void setWeatherBroker(WeatherBroker weatherBroker) {
+        this.weatherBroker = weatherBroker;
     }
 }

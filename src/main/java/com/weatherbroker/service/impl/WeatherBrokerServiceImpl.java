@@ -1,5 +1,6 @@
 package com.weatherbroker.service.impl;
 
+
 import com.weatherbroker.entity.ForecastWeather;
 import com.weatherbroker.entity.WeatherBroker;
 import com.weatherbroker.service.WeatherBrokerService;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -33,10 +36,15 @@ public class WeatherBrokerServiceImpl implements WeatherBrokerService {
         return result;
     }
 
-
     private ForecastFull forecastFull;
 
-    public WeatherBroker converterFromForecastFullToEntity(ForecastFull forecastFull) {
+    /**
+     * Конвертер из DTO ForecastFullT в Entity WeatherBroker
+     * @param forecastFull
+     * @return
+     * @throws ParseException
+     */
+    public WeatherBroker converterFromForecastFullToEntity(ForecastFull forecastFull) throws ParseException {
         WeatherBroker weatherBroker = new WeatherBroker();
         weatherBroker.setCity(forecastFull.getQuery().getResults().getChannel().getLocation().getCity());
         weatherBroker.setDateRequest(forecastFull.getQuery().getResults().getChannel().getItem().getCondition().getDate());
@@ -44,6 +52,13 @@ public class WeatherBrokerServiceImpl implements WeatherBrokerService {
         List<ForecastWeather> fw = new ArrayList<>();
         for (Forecast forecast : f) {
             ForecastWeather fwr = new ForecastWeather();
+            Date date = new SimpleDateFormat("dd MMM yyyy", Locale.US).parse(forecast.getDate());
+            fwr.setDate(date);
+            fwr.setDay(forecast.getDay());
+            fwr.setHigh(forecast.getHigh());
+            fwr.setLow(forecast.getLow());
+            fwr.setText(forecast.getText());
+
             fw.add(fwr);
         }
         weatherBroker.setForecastWeather(fw);
