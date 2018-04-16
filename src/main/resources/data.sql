@@ -1,2 +1,7 @@
-INSERT INTO Organization (id, version, name, fullname, inn, kpp, address, phone)
-VALUES (1, 1, 'bell integrator','LLC Bell Integrator','7714923230','771401001','125167, Moskow, street Planetnaya, House 11, Build 9/10 Of-4', '+7 (495) 980-61-81');
+INSERT INTO weather_broker (id, version, city)
+VALUES (1, 1, 'moskow');
+
+INSERT INTO forecast_weather (id, version, date, day, high, low, text, weather_broker_id)
+VALUES (1, 1, '2018-04-13','Fry','20','10','Mostly Cloudy', 1);
+
+

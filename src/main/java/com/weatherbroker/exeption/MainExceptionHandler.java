@@ -40,17 +40,6 @@ public class MainExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * @param e - исключения
-     * @return - возврат объект, в котором содержится обработанное сообщение об ошибке
-     */
-    @ExceptionHandler({CustomOrganizationException.class})
-    protected @ResponseBody
-    ResponseEntity<?> catcherAllCustomExceptions(Exception e) {
-        log.error(e.getMessage(), e.getCause());
-        return new ResponseEntity<>(new NegativeResponseView(e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    /**
      * @param ex - Исключения
      * @return - возврат объект, в котором содержится обработанное сообщение об ошибке
      */

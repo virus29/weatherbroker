@@ -2,7 +2,6 @@ package com.weatherbroker.entity;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "weather_broker")
@@ -15,6 +14,12 @@ public class WeatherBroker {
     @GeneratedValue
     @Column(name = "id")
     private Long id;
+
+    /**
+     * Служебное поле hibernate
+     */
+    @Version
+    private Integer version=1;
 
     /**
      *Город

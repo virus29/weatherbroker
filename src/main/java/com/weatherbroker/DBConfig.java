@@ -52,6 +52,7 @@ public class DBConfig {
     public DataSource dataSource() throws NamingException {
         return (DataSource) new JndiTemplate().lookup(env.getProperty("datasource.jndi-name"));
     }
+
     @Bean
     public PlatformTransactionManager transactionManager() throws NamingException {
         JpaTransactionManager transactionManager
@@ -60,12 +61,6 @@ public class DBConfig {
                 entityManagerFactory().getObject() );
         return transactionManager;
     }
-//    @Bean
-//    JpaTransactionManager transactionManager() throws NamingException {
-//        JpaTransactionManager transactionManager = new JpaTransactionManager();
-//        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-//        return transactionManager;
-//    }
 
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
@@ -73,14 +68,9 @@ public class DBConfig {
         properties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql")/*"true"*/);
         properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect")/*"org.hibernate.dialect.MySQL5Dialect"*/);
         properties.setProperty("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class")/*"thread"*/);
-//        properties.setProperty("hibernate.default-lazy", "false"/*"org.hibernate.dialect.MySQL5Dialect"*/);
-//        properties.setProperty("lazy",env.getProperty("lazy")/*"org.hibernate.dialect.MySQL5Dialect"*/);
         properties.setProperty("hibernate.connection.useUnicode", "true"/*env.getProperty("hibernate.connection.useUnicode")*/);
         properties.setProperty("hibernate.connection.characterEncoding", "UTF-8"/*env.getProperty("hibernate.connection.characterEncoding")*/);
         properties.setProperty("hibernate.connection.charSet", "UTF-8"/*env.getProperty("hibernate.connection.characterEncoding")*/);
-//        properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
-//        properties.setProperty("useUnicode", "true"/*"org.hibernate.dialect.MySQL5Dialect"*/);
-//        properties.setProperty("characterEncoding", "UTF-8"/*"org.hibernate.dialect.MySQL5Dialect"*/);
         return properties;
     }
 
@@ -110,24 +100,3 @@ public class DBConfig {
         return new ModelMapper();
     }
 }
-
-
-//@Configuration
-//@EnableTransactionManagement
-//public class PersistenceJPAConfig{
-//
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean
-//    entityManagerFactoryBean(){
-//        //...
-//    }
-//
-//    @Bean
-//    public PlatformTransactionManager transactionManager(){
-//        JpaTransactionManager transactionManager
-//                = new JpaTransactionManager();
-//        transactionManager.setEntityManagerFactory(
-//                entityManagerFactoryBean().getObject() );
-//        return transactionManager;
-//    }
-//}
