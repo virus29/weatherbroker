@@ -13,14 +13,18 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jndi.JndiTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
 
-
+import javax.jms.ConnectionFactory;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -53,6 +57,8 @@ public class DBConfig {
         return (DataSource) new JndiTemplate().lookup(env.getProperty("datasource.jndi-name"));
     }
 
+
+
     @Bean
     public PlatformTransactionManager transactionManager() throws NamingException {
         JpaTransactionManager transactionManager
@@ -64,13 +70,13 @@ public class DBConfig {
 
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto",/*"none"*/env.getProperty("hibernate.hbm2ddl.auto"));
-        properties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql")/*"true"*/);
-        properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect")/*"org.hibernate.dialect.MySQL5Dialect"*/);
-        properties.setProperty("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class")/*"thread"*/);
-        properties.setProperty("hibernate.connection.useUnicode", "true"/*env.getProperty("hibernate.connection.useUnicode")*/);
-        properties.setProperty("hibernate.connection.characterEncoding", "UTF-8"/*env.getProperty("hibernate.connection.characterEncoding")*/);
-        properties.setProperty("hibernate.connection.charSet", "UTF-8"/*env.getProperty("hibernate.connection.characterEncoding")*/);
+        properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        properties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        properties.setProperty("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class"));
+//        properties.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
+//        properties.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
+//        properties.setProperty("hibernate.connection.charSet", env.getProperty("hibernate.connection.characterEncoding"));
         return properties;
     }
 

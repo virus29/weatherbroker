@@ -1,12 +1,13 @@
 package com.weatherbroker.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "forecast_weather")
-public class ForecastWeather {
-
+public class ForecastWeather implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
      * Id forecast_weather
      */

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.geronimo.specs:geronimo-ejb_3.0_spec:1.0.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.geronimo.specs/geronimo-ejb_3.0_spec/1.0.1/d79076ee74c2349840a019c8d3af0b70a7d4a424/geronimo-ejb_3.0_spec-1.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.geronimo.specs/geronimo-ejb_3.0_spec/1.0.1/81d48c9ac9cd5d3347e8f88c442c8acc8d062c0b/geronimo-ejb_3.0_spec-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

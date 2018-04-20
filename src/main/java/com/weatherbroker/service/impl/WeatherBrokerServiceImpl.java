@@ -5,36 +5,60 @@ import com.weatherbroker.entity.ForecastWeather;
 import com.weatherbroker.entity.WeatherBroker;
 import com.weatherbroker.service.WeatherBrokerService;
 import com.weatherbroker.view.forecast.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 
+
 @Service
 @Repository
 public class WeatherBrokerServiceImpl implements WeatherBrokerService {
+
+    private Logger logger= (Logger) LoggerFactory.getLogger(WeatherBrokerServiceImpl.class);
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    JmsTemplate jmsTemplate;
+
     /**
-     * Получение прогноза погоды по Названию города, с Yahoo
+     * Отправка прогноза погоды в Базу через JMS, полученного по Названию города, с Yahoo
      *
      * @param cityName Название города
-     * @return Выводит прогноз погоды по параметрам тип информации и название города
      */
     @Override
-    public ResponseEntity<ForecastFull> findForecastByCityName(String cityName) {
+    @Transactional
+    public void findForecastByCityName(String cityName) throws ParseException {
         Map<String, String> vars = new HashMap<String, String>();
         vars.put("cityName", cityName);
 
         String url = "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"{cityName}\") and u=\"c\"&format=json&env= store://datatables.org/alltableswithkeys";
-        RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<ForecastFull> result = restTemplate.getForEntity(url, ForecastFull.class, vars);
-        return result;
+        ResponseEntity<ForecastFull> forecastFull = restTemplate.getForEntity(url, ForecastFull.class, vars);
+
+        WeatherBroker wb =converterFromForecastFullToEntity(forecastFull.getBody());
+
+        logger.info(wb.toString()+"отправляемый объект");
+
+        jmsTemplate.convertAndSend("weatherBrokerTopic", wb);
+
     }
+
+
+
 
     private ForecastFull forecastFull;
 
@@ -58,10 +82,13 @@ public class WeatherBrokerServiceImpl implements WeatherBrokerService {
             fwr.setHigh(forecast.getHigh());
             fwr.setLow(forecast.getLow());
             fwr.setText(forecast.getText());
+            logger.info("fwr");
 
             fw.add(fwr);
+            logger.info("fw");
         }
         weatherBroker.setForecastWeather(fw);
+        logger.info("weatherBroker");
         return weatherBroker;
     }
 }
