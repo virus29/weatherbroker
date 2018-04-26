@@ -3,6 +3,7 @@ package com.weatherbroker.service.impl;
 
 import com.weatherbroker.entity.ForecastWeather;
 import com.weatherbroker.entity.WeatherBroker;
+import com.weatherbroker.jms.WeatherPublisher;
 import com.weatherbroker.service.WeatherBrokerService;
 import com.weatherbroker.view.forecast.*;
 import org.slf4j.Logger;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
+import javax.jms.Topic;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,11 +35,10 @@ public class WeatherBrokerServiceImpl implements WeatherBrokerService {
     private RestTemplate restTemplate;
 
     @Autowired
-    JmsTemplate jmsTemplate;
+    WeatherPublisher weatherPublisher;
 
     /**
      * Отправка прогноза погоды в Базу через JMS, полученного по Названию города, с Yahoo
-     *
      * @param cityName Название города
      */
     @Override
@@ -53,7 +55,8 @@ public class WeatherBrokerServiceImpl implements WeatherBrokerService {
 
         logger.info(wb.toString()+"отправляемый объект");
 
-        jmsTemplate.convertAndSend("weatherBrokerTopic", wb);
+        weatherPublisher.sendWeather(wb);
+        logger.info(wb.toString()+" объект ОТПРАВЛЕН !!!!!!!!!!!!!!!!!!!!!!!");
 
     }
 

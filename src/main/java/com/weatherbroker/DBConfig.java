@@ -1,5 +1,6 @@
 package com.weatherbroker;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -74,9 +76,6 @@ public class DBConfig {
         properties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.setProperty("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class"));
-//        properties.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
-//        properties.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
-//        properties.setProperty("hibernate.connection.charSet", env.getProperty("hibernate.connection.characterEncoding"));
         return properties;
     }
 
@@ -102,7 +101,13 @@ public class DBConfig {
     }
 
     @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
+    RestTemplate restTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        ObjectMapper mapper = new ObjectMapper();
+        converter.setObjectMapper(mapper);
+        restTemplate.getMessageConverters().add(converter);
+        return restTemplate;
     }
+
 }

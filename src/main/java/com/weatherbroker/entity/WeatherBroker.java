@@ -12,7 +12,7 @@ public class WeatherBroker implements Serializable {
      * Id Запроса
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

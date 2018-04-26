@@ -12,7 +12,7 @@ public class ForecastWeather implements Serializable {
      * Id forecast_weather
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -52,7 +52,7 @@ public class ForecastWeather implements Serializable {
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "weatherBroker_id")
+    @JoinColumn(name = "weather_broker_id")
     private WeatherBroker weatherBroker;
 
     public Date getDate() {

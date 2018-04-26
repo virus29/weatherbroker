@@ -1,5 +1,6 @@
 package com.weatherbroker;
 
+import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
 import org.apache.activemq.artemis.jms.client.ActiveMQXAConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -8,13 +9,17 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
+import javax.annotation.Resource;
 import javax.jms.ConnectionFactory;
+import javax.jms.XAQueueConnectionFactory;
+import javax.jms.XATopicConnectionFactory;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -52,10 +57,6 @@ public class Config implements WebMvcConfigurer {
 
     @Bean
     public ConnectionFactory connectionFactory() throws NamingException {
-        System.out.println(new InitialContext().lookup(env.getProperty("jms.jndi-name")).toString() + " 1 ВНИМАНИЕ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        InitialContext initialContext = new InitialContext();
-        initialContext.lookup(env.getProperty("jms.jndi-name"));
-        System.out.println(initialContext.getEnvironment()+" 2 ВНИМАНИЕ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return (ConnectionFactory) new InitialContext().lookup(env.getProperty("jms.jndi-name"));
     }
 
@@ -64,7 +65,6 @@ public class Config implements WebMvcConfigurer {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory());
         template.setPubSubDomain(true); // pub/sub
-        System.out.println(template.toString() + " 3 ВНИМАНИЕ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return template;
     }
 
@@ -72,10 +72,7 @@ public class Config implements WebMvcConfigurer {
     public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() throws NamingException {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory());
-        System.out.println("Зашел в DefaultJmsListenerContainerFactory");
-//  factory.setConcurrency("1-1");
         factory.setPubSubDomain(true); // pub/sub
-        System.out.println(factory.toString() + " 4 ВНИМАНИЕ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return factory;
     }
 

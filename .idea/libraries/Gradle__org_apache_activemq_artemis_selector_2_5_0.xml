@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.activemq:artemis-selector:2.5.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.activemq/artemis-selector/2.5.0/2394d835c17f30100b0f56715e0d4e0f491007d3/artemis-selector-2.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.activemq/artemis-selector/2.5.0/ed0d6c19ce03c68ad585246a2de9d38f7cbfac/artemis-selector-2.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
